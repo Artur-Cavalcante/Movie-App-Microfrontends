@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Movies</title>
+    <link
+      rel="icon"
+      href="https://tcc-app-builds.s3.amazonaws.com/assets/film_reel.svg"
+      sizes="any"
+      type="image/svg+xml"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.7/runtime.min.js"></script>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' https: localhost:*; script-src 'unsafe-inline' 'unsafe-eval' https: localhost:*; connect-src https: localhost:* ws://localhost:*; style-src 'unsafe-inline' https:; object-src 'none';"
+    />
+    <meta name="importmap-type" content="systemjs-importmap" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js" as="script"/>
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/react@17.0.2/umd/react.production.min.js" as="script"/>
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/react-dom@17.0.2/umd/react-dom.production.min.js" as="script"/>   
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
+
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js",
+          "@tcc-app/root-config": "https://tcc-app-builds.s3.amazonaws.com/tcc-app-root-config.js",
+          "@tcc-app/navbar": "https://tcc-app-builds.s3.amazonaws.com/tcc-app-navbar.js",
+          "@tcc-app/movies": "https://tcc-app-builds.s3.amazonaws.com/tcc-app-movies.js",
+          "@tcc-app/details": "https://tcc-app-builds.s3.amazonaws.com/tcc-app-details.js",
+          "@tcc-app/favorites": "https://tcc-app-builds.s3.amazonaws.com/tcc-app-favorites.js",
+          "@tcc-app/core": "https://tcc-app-builds.s3.amazonaws.com/tcc-app-core.js",
+          "react": "https://cdn.jsdelivr.net/npm/react@17.0.2/umd/react.production.min.js",
+          "react-dom": "https://cdn.jsdelivr.net/npm/react-dom@17.0.2/umd/react-dom.production.min.js"
+        }
+      }
+    </script>
+    <template id="single-spa-layout">
+      <single-spa-router>
+        <nav class="topnav">
+          <application
+            name="@tcc-app/navbar"
+            loader="topNav"
+            error="topNav"
+          ></application>
+        </nav>
+        <div class="main-content">
+          <route default>
+            <application name="@tcc-app/movies"></application>
+          </route>
+          <route path="details">
+            <application name="@tcc-app/details"></application>
+          </route>
+          <route path="favorites">
+            <application name="@tcc-app/favorites"></application>
+          </route>
+        </div>
+      </single-spa-router>
+    </template>
+
+    <% if (isLocal) { %>
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "@tcc-app/root-config": "http://localhost:9000/tcc-app-root-config.js",
+          "@tcc-app/core": "http://localhost:8500/tcc-app-core.js",
+          "@tcc-app/navbar": "http://localhost:8501/tcc-app-navbar.js",
+          "@tcc-app/movies": "http://localhost:8502/tcc-app-movies.js",
+          "@tcc-app/details": "http://localhost:8503/js/app.js",
+          "@tcc-app/favorites": "http://localhost:8504/tcc-app-favorites.js"
+        }
+      }
+    </script>
+    <% } %> <% if (isLocal) { %>
+    <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/system.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/extras/amd.js"></script>
+    <% } else { %>
+    <script src="https://cdn.jsdelivr.net/npm/import-map-overrides@2.2.0/dist/import-map-overrides.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/system.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/extras/amd.min.js"></script>
+    <% } %>
+  </head>
+  <body>
+    <main></main>
+    <script>
+      System.import("@tcc-app/root-config");
+      System.import("@tcc-app/core");
+    </script>
+    <import-map-overrides-full
+      show-when-local-storage="devtools"
+      dev-libs
+    ></import-map-overrides-full>
+  </body>
+</html>

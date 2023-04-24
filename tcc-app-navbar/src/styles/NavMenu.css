@@ -1,0 +1,33 @@
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+.logo-name{
+  color: var(--color-navbar-title);
+  letter-spacing: 1.0px;
+  font-weight: 300;
+  font-size: 22px;
+  text-shadow: 0.3px 0.5px;
+}
+
+
+@media (max-width: 680px){
+
+  .logo-name{
+    color: var(--color-navbar-title);
+    letter-spacing: 1.0px;
+    font-weight: 300;
+    font-size: 16px;
+    text-shadow: 0.3px 0.5px;
+  }
+  .navbar-toggler-icon{
+    font-size: 1rem;
+  }
+  
+  .navbar-toggler{
+    width: 3rem;
+  }
+  
+}

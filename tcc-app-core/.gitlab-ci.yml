@@ -1,0 +1,30 @@
+stages:
+  - build
+  - up-to-s3
+
+build:
+  image: node:12
+  stage: build
+  before_script:
+    - npm i
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/tcc-app-core.js
+  only:
+    - main
+
+up-to-s3:
+  image:
+    name: banst/awscli
+    entrypoint: [""]
+  stage: up-to-s3
+  needs: [build]
+  dependencies:
+    - build
+  script:
+    - aws configure set region us-east-1
+    - aws s3 cp dist/tcc-app-core.js s3://$S3_BUCKET/tcc-app-core.js
+  only:
+    - main
